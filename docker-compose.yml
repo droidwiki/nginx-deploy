@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  frontend-proxy:
+    stop_grace_period: 5s
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == v22015112656329114
+      replicas: 1
+      update_config:
+        parallelism: 1
+        failure_action: rollback
+    image: nginx:alpine
+    volumes:
+      - ./sites/:/etc/nginx/conf.d/
+      - ./certs/:/etc/nginx/certs/
+    ports:
+      - "443:443"
