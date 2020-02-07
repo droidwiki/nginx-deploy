@@ -13,7 +13,7 @@ services:
         failure_action: rollback
     image: nginx:alpine
     volumes:
-      - ./sites/:/etc/nginx/conf.d/
+      - ./conf/:/etc/nginx/conf.d/
       - ./certs/:/etc/nginx/certs/
       - ./includes/:/etc/nginx/includes/
       - type: bind
