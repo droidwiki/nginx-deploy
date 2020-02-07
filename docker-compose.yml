@@ -18,10 +18,10 @@ services:
       - ./includes/:/etc/nginx/includes/
       - type: bind
         source: /data/shareddata/www/
-        target: /www/
+        target: /data/shareddata/www/
       - type: bind
         source: /data/mediawiki/
-        target: /mediawiki/
+        target: /data/mediawiki/
     extra_hosts:
       - "donut.dwnet:172.16.0.1"
       - "eclair.dwnet:172.16.0.2"
