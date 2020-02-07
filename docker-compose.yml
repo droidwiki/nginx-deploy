@@ -15,5 +15,16 @@ services:
     volumes:
       - ./sites/:/etc/nginx/conf.d/
       - ./certs/:/etc/nginx/certs/
+      - ./includes/:/etc/nginx/includes/
+      - type: bind
+        source: /data/shareddata/www/
+        target: /www/
+      - type: bind
+        source: /data/mediawiki/
+        target: /mediawiki/
+    extra_hosts:
+      - "donut.dwnet:172.16.0.1"
+      - "eclair.dwnet:172.16.0.2"
     ports:
       - "443:443"
+      - "80:80"
