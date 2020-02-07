@@ -4,10 +4,7 @@ services:
   frontend-proxy:
     stop_grace_period: 5s
     deploy:
-      placement:
-        constraints:
-          - node.hostname == v22015112656329114
-      replicas: 1
+      replicas: 2
       update_config:
         parallelism: 1
         failure_action: rollback
@@ -17,8 +14,8 @@ services:
       - ./certs/:/etc/nginx/certs/
       - ./includes/:/etc/nginx/includes/
       - type: bind
-        source: /data/shareddata/www/
-        target: /data/shareddata/www/
+        source: /data/shareddata/
+        target: /data/shareddata/
       - type: bind
         source: /data/mediawiki/
         target: /data/mediawiki/
@@ -28,3 +25,4 @@ services:
     ports:
       - "443:443"
       - "80:80"
+      - "8080:8080"
