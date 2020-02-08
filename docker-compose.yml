@@ -30,6 +30,19 @@ services:
       - "80:80"
       - "8080:8080"
 
+  cache:
+    stop_grace_period: 5s
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        failure_action: rollback
+    image: varnish
+    volumes:
+      - ./varnish/default.vcl:/etc/varnish/default.vcl:ro
+    tmpfs:
+      - /usr/local/var/varnish:exec
+
   citoid:
     <<: *deploy
     image: droidwiki/citoid
