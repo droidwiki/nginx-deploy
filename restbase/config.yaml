@@ -1,0 +1,87 @@
+droidwiki: &droidwiki
+  x-modules:
+    - spec:
+        paths:
+          /{api:v1}:
+            x-modules:
+              - path: projects/droidwiki.yaml
+                options: &default_options
+                  action:
+                    apiUriTemplate: "{{'https://{domain}/w/api.php'}}"
+                    baseUriTemplate: "{{'https://{domain}:7231/{domain}/v1'}}"
+                  parsoid:
+                    host: http://parsoid:8000
+                  citoid:
+                    host: http://citoid:1970
+                  related:
+                    cache_control: s-maxage=86400, max-age=86400
+                  purged_cache_control: s-maxage=0, max-age=86400
+                  purged_cache_control_client_cache: s-maxage=0, max-age=300
+              - path: projects/proxy.yaml
+                options: &proxy_options
+                  backend_host_template: '{{"/{domain}/sys/legacy"}}'
+                  block_external_reqs: true
+          /{api:sys}:
+            x-modules:
+              - path: projects/sys/droidwiki.yaml
+                options: *default_options
+              - path: projects/proxy.yaml
+                options:
+                  <<: *proxy_options
+                  block_external_reqs: false
+              - spec:
+                  paths:
+                    /legacy/key_value:
+                      x-modules:
+                        - path: sys/key_value.js
+                    /legacy/page_revisions:
+                      x-modules:
+                        - path: sys/page_revisions.js
+                    /table:
+                      x-modules:
+                        - path: sys/table.js
+                          options:
+                            conf:
+                              backend: sqlite
+                              dbname: db.sqlite3
+                              pool_idle_timeout: 20000
+                              retry_delay: 250
+                              retry_limit: 10
+                              show_sql: false
+                              storage_groups:
+                                - name: droidwiki
+                                  domains: /./
+services:
+  - name: restbase
+    module: hyperswitch
+    conf:
+      port: 7231
+      host: 0.0.0.0
+      salt: secret
+      default_page_size: 125
+      user_agent: RESTBase
+      ui_name: RESTBase
+      ui_url: https://www.mediawiki.org/wiki/RESTBase
+      ui_title: RESTBase docs
+      spec:
+        x-request-filters:
+          - path: ./lib/security_response_header_filter.js
+        x-sub-request-filters:
+          - type: default
+            name: http
+            options:
+              allow:
+                - pattern: /^https?:\/\/[a-zA-Z0-9\.]+\/w\/api\.php/
+                  forward_headers: true
+                - pattern: /^https?:\/\//
+        paths:
+          /{domain:www.droidwiki.org}: *droidwiki
+          /{domain:en.droidwiki.org}: *droidwiki
+
+logging:
+  name: restbase
+  level: warn
+  streams:
+    - type: stdout
+
+num_workers: 2

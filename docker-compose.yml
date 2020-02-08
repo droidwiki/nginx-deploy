@@ -1,13 +1,16 @@
 version: '3.7'
 
+x-deploy: &deploy
+  stop_grace_period: 5s
+  deploy:
+    replicas: 2
+    update_config:
+      parallelism: 1
+      failure_action: rollback
+
 services:
   frontend-proxy:
-    stop_grace_period: 5s
-    deploy:
-      replicas: 2
-      update_config:
-        parallelism: 1
-        failure_action: rollback
+    <<: *deploy
     image: nginx:alpine
     volumes:
       - ./conf/:/etc/nginx/conf.d/
@@ -26,3 +29,32 @@ services:
       - "443:443"
       - "80:80"
       - "8080:8080"
+
+  citoid:
+    <<: *deploy
+    image: droidwiki/citoid
+    depends_on:
+      - zotero
+    volumes:
+      - ./citoid/config.yml:/bin/config.yml
+
+  zotero:
+    <<: *deploy
+    image: zotero/translation-server
+
+  parsoid:
+    <<: *deploy
+    image: droidwiki/parsoid
+    volumes:
+      - ./parsoid/config.yml:/bin/config.yaml
+
+  restbase:
+    <<: *deploy
+    image: droidwiki/restbase
+    depends_on:
+      - citoid
+      - parsoid
+    volumes:
+      - ./restbase/config.yaml:/restbase/config.yaml
+      - ./restbase/droidwiki.yaml:/restbase/projects/droidwiki.yaml
+      - ./restbase/droidwiki_sys.yaml:/restbase/projects/sys/droidwiki.yaml
