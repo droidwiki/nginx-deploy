@@ -12,6 +12,8 @@ services:
   frontend-proxy:
     <<: *deploy
     image: nginx:alpine
+    depends_on:
+      - restbase
     volumes:
       - ./conf/:/etc/nginx/conf.d/
       - ./certs/:/etc/nginx/certs/
