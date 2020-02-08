@@ -54,6 +54,9 @@ services:
     depends_on:
       - citoid
       - parsoid
+    ports:
+      # Remove once php-fpm is in stack as well
+      - "7231:7231"
     volumes:
       - ./restbase/config.yaml:/restbase/config.yaml
       - ./restbase/droidwiki.yaml:/restbase/projects/droidwiki.yaml
