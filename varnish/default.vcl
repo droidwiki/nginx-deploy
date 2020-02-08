@@ -10,22 +10,12 @@ backend thumbor {
         .port = "80";
 }
 
-acl purge {
-        "172.16.0.1";
-        "172.16.0.2";
-        "10.0.0.0/16";
-}
-
 sub vcl_recv {
         set req.http.X-Forwarded-For = req.http.X-Forwarded-For + ", " + client.ip;
         set req.backend_hint= default;
 
         if (req.method == "PURGE") {
-            if (!client.ip ~ purge) {
-                return (synth(405, "Not allowed for " + client.ip));
-            } else {
-                return (purge);
-            }
+            return (purge);
         }
 
         if (req.method != "GET" && req.method != "HEAD" &&
