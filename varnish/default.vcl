@@ -13,6 +13,7 @@ backend thumbor {
 acl purge {
         "172.16.0.1";
         "172.16.0.2";
+	"10.255.0.3";
 }
 
 sub vcl_recv {
@@ -21,7 +22,7 @@ sub vcl_recv {
 
         if (req.method == "PURGE") {
             if (!client.ip ~ purge) {
-                return (synth(405, "Not allowed."));
+                return (synth(405, "Not allowed for " + client.ip));
             } else {
                 return (purge);
             }
