@@ -38,6 +38,9 @@ services:
         parallelism: 1
         failure_action: rollback
     image: varnish
+    ports:
+      # Not needed after php-fpm is in stack deploy
+      - "6081:80"
     volumes:
       - ./varnish/default.vcl:/etc/varnish/default.vcl:ro
     tmpfs:
