@@ -52,6 +52,20 @@ services:
     tmpfs:
       - /usr/local/var/varnish:exec
 
+  thumbor:
+    <<: *deploy
+    image: minimalcompact/thumbor
+    environment:
+      - LOADER=thumbor.loaders.file_loader
+      - FILE_LOADER_ROOT_PATH=/images
+      - STORAGE=thumbor.storages.file_storage
+      # Piloting, not saving generated files for now
+      - RESULT_STORAGE=thumbor.result_storages.no_storage
+      - RESULT_STORAGE_FILE_STORAGE_ROOT_PATH=/images
+      - RESULT_STORAGE_STORES_UNSAFE=True
+    volumes:
+      - /data/shareddata/mediawiki/images:/images
+
   citoid:
     <<: *deploy
     image: droidwiki/citoid

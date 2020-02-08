@@ -6,14 +6,14 @@ backend default {
 }
 
 backend thumbor {
-        .host = "172.16.0.1";
-        .port = "8181";
+        .host = "thumbor";
+        .port = "80";
 }
 
 acl purge {
         "172.16.0.1";
         "172.16.0.2";
-	"10.255.0.3";
+        "10.255.0.3";
 }
 
 sub vcl_recv {
