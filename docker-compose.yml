@@ -26,8 +26,14 @@ services:
       - "donut.dwnet:172.16.0.1"
       - "eclair.dwnet:172.16.0.2"
     ports:
-      - "443:443"
-      - "80:80"
+      - mode: host
+        protocol: tcp
+        published: 443
+        target: 443
+      - mode: host
+        protocol: tcp
+        published: 80
+        target: 80
       - "8080:8080"
 
   cache:
