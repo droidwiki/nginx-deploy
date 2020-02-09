@@ -36,6 +36,12 @@ services:
         target: 80
       - "8080:8080"
 
+  php:
+    <<: *deploy
+    image: droidwiki/php-fpm:7.4
+    volumes:
+      - /data:/data
+
   cache:
     stop_grace_period: 5s
     deploy:
