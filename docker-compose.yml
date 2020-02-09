@@ -13,9 +13,9 @@ services:
     <<: *deploy
     image: nginx:alpine
     volumes:
-      - ./conf/:/etc/nginx/conf.d/
-      - ./certs/:/etc/nginx/certs/
-      - ./includes/:/etc/nginx/includes/
+      - ./nginx/conf/:/etc/nginx/conf.d/
+      - ./nginx/certs/:/etc/nginx/certs/
+      - ./nginx/includes/:/etc/nginx/includes/
       - type: bind
         source: /data/shareddata/
         target: /data/shareddata/
