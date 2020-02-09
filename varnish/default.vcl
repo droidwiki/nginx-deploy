@@ -11,7 +11,6 @@ backend thumbor {
 }
 
 sub vcl_recv {
-        set req.http.X-Forwarded-For = req.http.X-Forwarded-For + ", " + client.ip;
         set req.backend_hint= default;
 
         if (req.method == "PURGE") {
