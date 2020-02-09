@@ -28,6 +28,7 @@ RUN apk add --no-cache --update \
     mbstring \
     mysqli \
     gd \
+    sockets \
     && pecl install apcu \
     && docker-php-ext-enable apcu \
     && pecl install redis \
