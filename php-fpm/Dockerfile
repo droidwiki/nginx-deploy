@@ -7,6 +7,8 @@ RUN apk add --no-cache --update \
     autoconf \
     g++ \
     make \
+    # Scribunto extension
+    lua \
     # gd
     freetype-dev \
     libpng-dev \
