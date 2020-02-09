@@ -42,6 +42,28 @@ services:
     volumes:
       - /data:/data
 
+  jobrunner:
+    stop_grace_period: 5s
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        failure_action: rollback
+    image: droidwiki/jobrunner
+    volumes:
+      - /data:/data
+
+  jobchron:
+    stop_grace_period: 5s
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        failure_action: rollback
+    image: droidwiki/jobchron
+    volumes:
+      - /data:/data
+
   cache:
     stop_grace_period: 5s
     deploy:

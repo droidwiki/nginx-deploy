@@ -1,0 +1,11 @@
+FROM droidwiki/php-fpm:7.4
+
+RUN docker-php-ext-install pcntl
+
+WORKDIR /opt/
+RUN apk add --no-cache --update git \
+    && git clone https://github.com/wikimedia/mediawiki-services-jobrunner.git jobrunner \
+    && apk del git
+
+COPY config config
+CMD ["/usr/local/bin/php", "/opt/jobrunner/redisJobRunnerService", "--config-file=/opt/config/jobrunner.conf"]
