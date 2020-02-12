@@ -8,4 +8,5 @@ RUN apk add --no-cache --update git \
     && apk del git
 
 COPY config config
+USER www-data:www-data
 CMD ["/usr/local/bin/php", "/opt/jobrunner/redisJobRunnerService", "--config-file=/opt/config/jobrunner.conf"]
