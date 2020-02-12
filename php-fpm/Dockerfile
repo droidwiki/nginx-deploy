@@ -1,4 +1,5 @@
-FROM php:7.4-fpm-alpine
+# Min version is 7.4.3 for https://phabricator.wikimedia.org/T243667
+FROM phpdaily/php:7.4.3-dev-fpm-alpine3.10
 
 ENV MAGICK_HOME=/usr
 ENV MEMCACHED_DEPS zlib-dev libmemcached-dev cyrus-sasl-dev
@@ -24,7 +25,6 @@ RUN apk add --no-cache --update \
      --with-jpeg \
     && docker-php-ext-install \
     opcache \
-    json \
     mbstring \
     mysqli \
     gd \
