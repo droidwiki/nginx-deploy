@@ -6,11 +6,15 @@ x-deploy: &deploy
     replicas: 2
     update_config:
       parallelism: 1
-      failure_action: rollback
+      failure_action: pause
 
 services:
   frontend-proxy:
-    <<: *deploy
+    deploy:
+      mode: global
+      update_config:
+        parallelism: 1
+        failure_action: pause
     image: nginx:alpine
     volumes:
       - ./nginx/conf/:/etc/nginx/conf.d/
@@ -34,7 +38,10 @@ services:
         protocol: tcp
         published: 80
         target: 80
-      - "8080:8080"
+      - mode: ingress
+        protocol: tcp
+        published: 8080
+        target: 8080
 
   php:
     <<: *deploy
