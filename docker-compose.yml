@@ -85,7 +85,7 @@ services:
 
   memcached:
     <<: *deploy
-    image: memcached
+    image: memcached:alpine
     command: memcached -m 11410
 
   thumbor:
