@@ -51,6 +51,7 @@ services:
         parallelism: 1
         failure_action: rollback
     image: droidwiki/jobrunner
+    user: 33:33
     volumes:
       - /data:/data
 
@@ -62,6 +63,7 @@ services:
         parallelism: 1
         failure_action: rollback
     image: droidwiki/jobchron
+    user: 33:33
     volumes:
       - /data:/data
 
