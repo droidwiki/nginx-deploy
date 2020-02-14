@@ -83,6 +83,11 @@ services:
     tmpfs:
       - /usr/local/var/varnish:exec
 
+  memcached:
+    <<: *deploy
+    image: memcached
+    command: memcached -m 11410
+
   thumbor:
     <<: *deploy
     image: minimalcompact/thumbor
