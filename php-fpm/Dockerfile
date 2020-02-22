@@ -1,5 +1,4 @@
-# Min version is 7.4.3 for https://phabricator.wikimedia.org/T243667
-FROM phpdaily/php:7.4.3-dev-fpm-alpine3.10
+FROM php:7.4.3-fpm-alpine
 
 ENV MAGICK_HOME=/usr
 ENV MEMCACHED_DEPS zlib-dev libmemcached-dev cyrus-sasl-dev
