@@ -77,7 +77,7 @@ services:
   cache:
     stop_grace_period: 5s
     deploy:
-      replicas: 2
+      replicas: 1
       update_config:
         parallelism: 1
         failure_action: rollback
