@@ -4,7 +4,8 @@ WORKDIR /source
 RUN apk --no-cache add git python make g++
 RUN git clone https://github.com/wikimedia/citoid.git .
 
-RUN npm ci
+# Use npm ci after https://phabricator.wikimedia.org/T247108 is resolved
+RUN npm install
 
 FROM node:alpine
 
