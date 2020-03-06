@@ -48,6 +48,22 @@ resources:
     paths:
       - restbase/*
 
+- name: varnish-src
+  type: git
+  check_every: 24h
+  source:
+    uri: https://github.com/droidwiki/nginx-deploy.git
+    paths:
+      - varnish/*
+
+- name: nginx-src
+  type: git
+  check_every: 24h
+  source:
+    uri: https://github.com/droidwiki/nginx-deploy.git
+    paths:
+      - nginx/*
+
 - name: citoid-image
   type: docker-image
   source:
@@ -90,6 +106,20 @@ resources:
     password: ((docker.access_token))
     repository: droidwiki/restbase
 
+- name: varnish-image
+  type: docker-image
+  source:
+    username: ((docker.username))
+    password: ((docker.access_token))
+    repository: droidwiki/varnish
+
+- name: nginx-image
+  type: docker-image
+  source:
+    username: ((docker.username))
+    password: ((docker.access_token))
+    repository: droidwiki/nginx
+
 jobs:
   - name: citoid
     serial: true
@@ -122,6 +152,22 @@ jobs:
       - put: restbase-image
         params:
           build: restbase-src/restbase
+
+  - name: varnish
+    serial: true
+    plan:
+      - get: varnish-src
+      - put: varnish-image
+        params:
+          build: varnish-src/varnish
+
+  - name: nginx
+    serial: true
+    plan:
+      - get: nginx-src
+      - put: nginx-image
+        params:
+          build: nginx-src/nginx
 
   - name: jobrunner
     serial: true
@@ -165,6 +211,16 @@ jobs:
           trigger: true
           params:
             skip_download: true
+        - get: varnish-image
+          passed: [varnish]
+          trigger: true
+          params:
+            skip_download: true
+        - get: nginx-image
+          passed: [nginx]
+          trigger: true
+          params:
+            skip_download: true
       - task: deploy stack
         config:
           platform: linux
@@ -173,6 +229,8 @@ jobs:
             source:
               repository: lgatica/openssh-client
               tag: latest
+          inputs:
+            - name: stack-config
           run:
             path: sh
             args:
@@ -183,5 +241,5 @@ jobs:
                 eval `ssh-agent -s`
                 ssh-add /tmp/ssh-key
 
-                ssh -o StrictHostKeyChecking=no -n ((deployment.username))@((docker.manager_host)) \
-                  "sudo deploy-webserver"
+                ssh -o StrictHostKeyChecking=no ((deployment.username))@((docker.manager_host)) \
+                  "sudo deploy-webserver" < stack-config/web.yml
