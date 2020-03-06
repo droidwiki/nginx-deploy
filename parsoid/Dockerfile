@@ -10,6 +10,7 @@ FROM node:alpine
 
 COPY --from=build /source /bin
 
+COPY config.yml /bin/config.yaml
 WORKDIR /bin
 EXPOSE 8142
 
