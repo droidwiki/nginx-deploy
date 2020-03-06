@@ -1,0 +1,187 @@
+resources:
+- name: stack-config
+  type: git
+  check_every: 24h
+  source:
+    uri: https://github.com/droidwiki/nginx-deploy.git
+    paths:
+      - web.yml
+
+- name: citoid-src
+  type: git
+  check_every: 24h
+  source:
+    uri: https://github.com/droidwiki/nginx-deploy.git
+    paths:
+      - citoid/*
+
+- name: jobrunner-src
+  type: git
+  check_every: 24h
+  source:
+    uri: https://github.com/droidwiki/nginx-deploy.git
+    paths:
+      - jobchron/*
+      - jobrunner/*
+
+- name: parsoid-src
+  type: git
+  check_every: 24h
+  source:
+    uri: https://github.com/droidwiki/nginx-deploy.git
+    paths:
+      - parsoid/*
+
+- name: php-fpm-src
+  type: git
+  check_every: 24h
+  source:
+    uri: https://github.com/droidwiki/nginx-deploy.git
+    paths:
+      - php-fpm/*
+
+- name: restbase-src
+  type: git
+  check_every: 24h
+  source:
+    uri: https://github.com/droidwiki/nginx-deploy.git
+    paths:
+      - restbase/*
+
+- name: citoid-image
+  type: docker-image
+  source:
+    username: ((docker.username))
+    password: ((docker.access_token))
+    repository: droidwiki/citoid
+
+- name: jobrunner-image
+  type: docker-image
+  source:
+    username: ((docker.username))
+    password: ((docker.access_token))
+    repository: droidwiki/jobrunner
+
+- name: jobchron-image
+  type: docker-image
+  source:
+    username: ((docker.username))
+    password: ((docker.access_token))
+    repository: droidwiki/jobchron
+
+- name: parsoid-image
+  type: docker-image
+  source:
+    username: ((docker.username))
+    password: ((docker.access_token))
+    repository: droidwiki/parsoid
+
+- name: php-fpm-image
+  type: docker-image
+  source:
+    username: ((docker.username))
+    password: ((docker.access_token))
+    repository: droidwiki/php-fpm
+
+- name: restbase-image
+  type: docker-image
+  source:
+    username: ((docker.username))
+    password: ((docker.access_token))
+    repository: droidwiki/restbase
+
+jobs:
+  - name: citoid
+    serial: true
+    plan:
+      - get: citoid-src
+      - put: citoid-image
+        params:
+          build: citoid-src/citoid
+
+  - name: parsoid
+    serial: true
+    plan:
+      - get: parsoid-src
+      - put: parsoid-image
+        params:
+          build: parsoid-src/parsoid
+
+  - name: php-fpm
+    serial: true
+    plan:
+      - get: php-fpm-src
+      - put: php-fpm-image
+        params:
+          build: php-fpm-src/php-fpm
+
+  - name: restbase
+    serial: true
+    plan:
+      - get: restbase-src
+      - put: restbase-image
+        params:
+          build: restbase-src/restbase
+
+  - name: jobrunner
+    serial: true
+    plan:
+      - get: jobrunner-src
+      - put: jobrunner-image
+        params:
+          build: jobrunner-src/jobrunner
+      - put: jobchron-image
+        params:
+          build: jobrunner-src/jobchron
+
+  - name: deploy
+    serial: true
+    plan:
+      - in_parallel:
+        - get: stack-config
+          trigger: true
+        - get: jobrunner-image
+          passed: [jobrunner]
+          trigger: true
+          params:
+            skip_download: true
+        - get: restbase-image
+          passed: [restbase]
+          trigger: true
+          params:
+            skip_download: true
+        - get: php-fpm-image
+          passed: [php-fpm]
+          trigger: true
+          params:
+            skip_download: true
+        - get: parsoid-image
+          passed: [parsoid]
+          trigger: true
+          params:
+            skip_download: true
+        - get: citoid-image
+          passed: [citoid]
+          trigger: true
+          params:
+            skip_download: true
+      - task: deploy stack
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: lgatica/openssh-client
+              tag: latest
+          run:
+            path: sh
+            args:
+              - -ec
+              - |
+                echo "((deployment.private_key))" > /tmp/ssh-key
+                chmod 600 /tmp/ssh-key
+                eval `ssh-agent -s`
+                ssh-add /tmp/ssh-key
+
+                ssh -o StrictHostKeyChecking=no -n ((deployment.username))@((docker.manager_host)) \
+                  "sudo deploy-webserver"
