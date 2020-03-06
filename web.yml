@@ -15,11 +15,9 @@ services:
       update_config:
         parallelism: 1
         failure_action: pause
-    image: nginx:alpine
+    image: droidwiki/nginx
     volumes:
-      - ./nginx/conf/:/etc/nginx/conf.d/
       - ./nginx/certs/:/etc/nginx/certs/
-      - ./nginx/includes/:/etc/nginx/includes/
       - type: bind
         source: /data/shareddata/
         target: /data/shareddata/
@@ -81,12 +79,10 @@ services:
       update_config:
         parallelism: 1
         failure_action: rollback
-    image: varnish
+    image: droidwiki/varnish
     ports:
       # Not needed after php-fpm is in stack deploy
       - "6081:80"
-    volumes:
-      - ./varnish/default.vcl:/etc/varnish/default.vcl:ro
     tmpfs:
       - /usr/local/var/varnish:exec
 
