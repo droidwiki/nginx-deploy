@@ -171,6 +171,4 @@ sub vcl_backend_response {
           set beresp.uncacheable = true;
           return (deliver);
         }
-
-        return (deliver);
 }
