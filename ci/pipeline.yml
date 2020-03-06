@@ -2,6 +2,8 @@ resources:
 - name: stack-config
   type: git
   check_every: 24h
+  webhook_token: ((github.webhook_token))
+  icon: github-circle
   source:
     uri: https://github.com/droidwiki/nginx-deploy.git
     paths:
@@ -10,6 +12,8 @@ resources:
 - name: citoid-src
   type: git
   check_every: 24h
+  webhook_token: ((github.webhook_token))
+  icon: github-circle
   source:
     uri: https://github.com/droidwiki/nginx-deploy.git
     paths:
@@ -18,6 +22,8 @@ resources:
 - name: jobrunner-src
   type: git
   check_every: 24h
+  webhook_token: ((github.webhook_token))
+  icon: github-circle
   source:
     uri: https://github.com/droidwiki/nginx-deploy.git
     paths:
@@ -27,6 +33,8 @@ resources:
 - name: parsoid-src
   type: git
   check_every: 24h
+  webhook_token: ((github.webhook_token))
+  icon: github-circle
   source:
     uri: https://github.com/droidwiki/nginx-deploy.git
     paths:
@@ -35,6 +43,8 @@ resources:
 - name: php-fpm-src
   type: git
   check_every: 24h
+  webhook_token: ((github.webhook_token))
+  icon: github-circle
   source:
     uri: https://github.com/droidwiki/nginx-deploy.git
     paths:
@@ -43,6 +53,8 @@ resources:
 - name: restbase-src
   type: git
   check_every: 24h
+  webhook_token: ((github.webhook_token))
+  icon: github-circle
   source:
     uri: https://github.com/droidwiki/nginx-deploy.git
     paths:
@@ -51,6 +63,8 @@ resources:
 - name: varnish-src
   type: git
   check_every: 24h
+  webhook_token: ((github.webhook_token))
+  icon: github-circle
   source:
     uri: https://github.com/droidwiki/nginx-deploy.git
     paths:
@@ -59,6 +73,8 @@ resources:
 - name: nginx-src
   type: git
   check_every: 24h
+  webhook_token: ((github.webhook_token))
+  icon: github-circle
   source:
     uri: https://github.com/droidwiki/nginx-deploy.git
     paths:
@@ -66,6 +82,7 @@ resources:
 
 - name: citoid-image
   type: docker-image
+  icon: docker
   source:
     username: ((docker.username))
     password: ((docker.access_token))
@@ -73,6 +90,7 @@ resources:
 
 - name: jobrunner-image
   type: docker-image
+  icon: docker
   source:
     username: ((docker.username))
     password: ((docker.access_token))
@@ -80,6 +98,7 @@ resources:
 
 - name: jobchron-image
   type: docker-image
+  icon: docker
   source:
     username: ((docker.username))
     password: ((docker.access_token))
@@ -87,6 +106,7 @@ resources:
 
 - name: parsoid-image
   type: docker-image
+  icon: docker
   source:
     username: ((docker.username))
     password: ((docker.access_token))
@@ -94,6 +114,7 @@ resources:
 
 - name: php-fpm-image
   type: docker-image
+  icon: docker
   source:
     username: ((docker.username))
     password: ((docker.access_token))
@@ -101,6 +122,7 @@ resources:
 
 - name: restbase-image
   type: docker-image
+  icon: docker
   source:
     username: ((docker.username))
     password: ((docker.access_token))
@@ -108,6 +130,7 @@ resources:
 
 - name: varnish-image
   type: docker-image
+  icon: docker
   source:
     username: ((docker.username))
     password: ((docker.access_token))
@@ -115,6 +138,7 @@ resources:
 
 - name: nginx-image
   type: docker-image
+  icon: docker
   source:
     username: ((docker.username))
     password: ((docker.access_token))
