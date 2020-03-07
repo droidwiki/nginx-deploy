@@ -43,7 +43,7 @@ services:
 
   php:
     <<: *deploy
-    image: droidwiki/php-fpm:7.4.3-alpine
+    image: droidwiki/php-fpm
     user: 33:33
     volumes:
       - /data:/data
