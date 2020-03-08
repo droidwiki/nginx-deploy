@@ -1,4 +1,19 @@
-FROM nginx:alpine
+FROM nginx:alpine AS release
 
 COPY conf/ /etc/nginx/conf.d/
 COPY includes/ /etc/nginx/includes/
+COPY certs/dhparam.pem /etc/nginx/certs/dhparam.pem
+
+FROM nginx:alpine AS test
+COPY --from=release / /
+
+RUN apk add --no-cache --no-progress openssl
+RUN mkdir -p /etc/nginx/certs/droidwiki.org && \
+    openssl req -nodes -x509 -newkey rsa:4096 \
+     -keyout /etc/nginx/certs/droidwiki.org/privkey.pem \
+     -out /etc/nginx/certs/droidwiki.org/fullchain.pem \
+     -days 365 \
+     -subj "/C=DE/ST=No/L=City/O=A/OU=A/CN=www.example.com/emailAddress=dev@www.example.com"
+RUN nginx -t
+
+FROM release
