@@ -149,6 +149,7 @@ jobs:
     serial: true
     plan:
       - get: citoid-src
+        trigger: true
       - put: citoid-image
         params:
           build: citoid-src/citoid
@@ -157,6 +158,7 @@ jobs:
     serial: true
     plan:
       - get: parsoid-src
+        trigger: true
       - put: parsoid-image
         params:
           build: parsoid-src/parsoid
@@ -165,6 +167,7 @@ jobs:
     serial: true
     plan:
       - get: php-fpm-src
+        trigger: true
       - put: php-fpm-image
         params:
           build: php-fpm-src/php-fpm
@@ -173,6 +176,7 @@ jobs:
     serial: true
     plan:
       - get: restbase-src
+        trigger: true
       - put: restbase-image
         params:
           build: restbase-src/restbase
@@ -181,6 +185,7 @@ jobs:
     serial: true
     plan:
       - get: varnish-src
+        trigger: true
       - put: varnish-image
         params:
           build: varnish-src/varnish
@@ -189,6 +194,7 @@ jobs:
     serial: true
     plan:
       - get: nginx-src
+        trigger: true
       - put: nginx-image
         params:
           build: nginx-src/nginx
@@ -197,6 +203,7 @@ jobs:
     serial: true
     plan:
       - get: jobrunner-src
+        trigger: true
       - put: jobrunner-image
         params:
           build: jobrunner-src/jobrunner
