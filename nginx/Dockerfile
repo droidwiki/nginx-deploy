@@ -2,7 +2,7 @@ FROM nginx:alpine AS release
 
 COPY conf/ /etc/nginx/conf.d/
 COPY includes/ /etc/nginx/includes/
-COPY certs/dhparam.pem /etc/nginx/certs/dhparam.pem
+COPY dhparam.pem /etc/nginx/ssl/dhparam.pem
 
 FROM nginx:alpine AS test
 COPY --from=release / /
