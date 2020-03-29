@@ -146,12 +146,9 @@ sub vcl_deliver {
         }
 }
 
-sub vcl_backend_error {
-        set beresp.http.x-origin = beresp.backend.name;
-}
-
 sub vcl_backend_response {
         set beresp.grace = 120s;
+        set beresp.http.x-origin = beresp.backend.name;
 
         if (beresp.ttl < 48h) {
           set beresp.ttl = 48h;
