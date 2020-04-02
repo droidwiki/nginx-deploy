@@ -204,12 +204,17 @@ jobs:
     plan:
       - get: jobrunner-src
         trigger: true
+      - get: php-fpm-image
+        passed: [php-fpm]
+        trigger: true
       - put: jobrunner-image
         params:
           build: jobrunner-src/jobrunner
+          load_base: php-fpm-image
       - put: jobchron-image
         params:
           build: jobrunner-src/jobchron
+          load_base: php-fpm-image
 
   - name: deploy
     serial: true
