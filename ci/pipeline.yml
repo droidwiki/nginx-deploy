@@ -207,6 +207,8 @@ jobs:
       - get: php-fpm-image
         passed: [php-fpm]
         trigger: true
+        params:
+          save: true
       - put: jobrunner-image
         params:
           build: jobrunner-src/jobrunner
@@ -261,7 +263,7 @@ jobs:
         config:
           platform: linux
           image_resource:
-            type: docker-image
+            type: registry-image
             source:
               repository: lgatica/openssh-client
               tag: latest
