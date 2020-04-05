@@ -6,7 +6,7 @@ x-deploy: &deploy
     replicas: 2
     update_config:
       parallelism: 1
-      failure_action: pause
+      failure_action: rollback
 
 services:
   frontend-proxy:
@@ -14,7 +14,7 @@ services:
       mode: global
       update_config:
         parallelism: 1
-        failure_action: pause
+        failure_action: rollback
     image: droidwiki/nginx
     volumes:
       - ./nginx/certs/:/etc/nginx/certs/
@@ -73,12 +73,7 @@ services:
       - /data:/data
 
   cache:
-    stop_grace_period: 5s
-    deploy:
-      replicas: 1
-      update_config:
-        parallelism: 1
-        failure_action: rollback
+    <<: *deploy
     image: droidwiki/varnish
     ports:
       # Not needed after php-fpm is in stack deploy
