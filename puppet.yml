@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  puppet:
+    stop_grace_period: 5s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '1.00'
+      replicas: 1
+      update_config:
+        parallelism: 1
+        failure_action: rollback
+    image: droidwiki/puppetserver
+    healthcheck:
+      # For some reason, puppetserver never goes from satrting to running
+      disable: true
+    environment:
+     - PUPPETSERVER_HOSTNAME=eclair.dwnet
+     - DNS_ALT_NAMES=eclair.dwnet,puppet
+     - CA_HOSTNAME=eclair.dwnet
+     - USE_PUPPETDB=false
+    ports:
+     - "8140:8140"
+    volumes:
+     - /data/ha_volume/puppet/code/:/etc/puppetlabs/code/
+     - /data/ha_volume/puppet/puppet/:/etc/puppetlabs/puppet/
