@@ -4,6 +4,8 @@ networks:
   net:
     driver: overlay
     attachable: true
+  webserver_default:
+    external: true
 
 volumes: 
   prometheus: {}
@@ -116,6 +118,7 @@ services:
     image: prom/prometheus
     networks:
       - net
+      - webserver_default
     ports:
       - "9090:9090"
     command:
