@@ -23,6 +23,13 @@ scrape_configs:
       type: 'A'
       port: 9323
 
+  - job_name: 'varnish-exporter'
+    dns_sd_configs:
+    - names:
+      - 'tasks.cache'
+      type: 'A'
+      port: 9131
+
   - job_name: 'cadvisor'
     dns_sd_configs:
     - names:
