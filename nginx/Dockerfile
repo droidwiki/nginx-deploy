@@ -1,10 +1,11 @@
-FROM nginx:alpine AS release
+ARG NGINX_VERSION=1.17.10
+FROM nginx:${NGINX_VERSION}-alpine AS release
 
 COPY conf/ /etc/nginx/conf.d/
 COPY includes/ /etc/nginx/includes/
 COPY dhparam.pem /etc/nginx/ssl/dhparam.pem
 
-FROM nginx:alpine AS test
+FROM nginx:${NGINX_VERSION}-alpine AS test
 COPY --from=release / /
 RUN apk add --no-cache --no-progress openssl
 RUN mkdir -p /etc/nginx/certs/droidwiki.org && \
