@@ -82,7 +82,12 @@ services:
       - /usr/local/var/varnish:exec
 
   memcached:
-    <<: *deploy
+    stop_grace_period: 5s
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        failure_action: rollback
     image: memcached:alpine
     command: memcached -m 11410
 
