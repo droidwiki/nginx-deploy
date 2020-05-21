@@ -64,7 +64,7 @@ sub vcl_recv {
                 return (hash);
         }
 
-        if (req.http.Authorization || req.http.Cookie ~ "([sS]ession|-sessionId|Token)=") {
+        if (req.http.Authorization || req.http.Cookie ~ "([sS]ession|Token)=") {
             return (pass);
         }
 
