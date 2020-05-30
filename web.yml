@@ -93,7 +93,7 @@ services:
 
   thumbor:
     <<: *deploy
-    image: minimalcompact/thumbor
+    image: minimalcompact/thumbor:6.7.5
     environment:
       - LOADER=thumbor.loaders.file_loader
       - FILE_LOADER_ROOT_PATH=/images
@@ -113,7 +113,7 @@ services:
 
   zotero:
     <<: *deploy
-    image: zotero/translation-server
+    image: zotero/translation-server:2.0.3
 
   parsoid:
     <<: *deploy
