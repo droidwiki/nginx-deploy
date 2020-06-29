@@ -1,4 +1,4 @@
-ARG NODE_VERSION=14.3.0
+ARG NODE_VERSION=14.4.0
 FROM node:${NODE_VERSION}-alpine AS build
 
 WORKDIR /source
