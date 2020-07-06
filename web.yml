@@ -22,6 +22,9 @@ services:
         source: /data/shareddata/
         target: /data/shareddata/
       - type: bind
+        source: /data/ha_volume/go2tech.de/
+        target: /data/ha_volume/go2tech.de/
+      - type: bind
         source: /data/mediawiki/
         target: /data/mediawiki/
     extra_hosts:
