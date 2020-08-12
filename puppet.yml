@@ -6,7 +6,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 512M
+          memory: 1024M
           cpus: '1.00'
       replicas: 1
       update_config:
