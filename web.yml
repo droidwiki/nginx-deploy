@@ -94,6 +94,14 @@ services:
     image: memcached:alpine
     command: memcached -m 11410
 
+  redis:
+    image: redis:6.0.8-alpine
+    volumes:
+      - /data/ha_volume/redis:/data
+    deploy:
+      replicas: 1
+    command: redis-server --appendonly yes
+
   thumbor:
     <<: *deploy
     image: minimalcompact/thumbor:6.7.5
