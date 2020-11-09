@@ -1,7 +1,12 @@
-FROM php:7.4.12-fpm-alpine
+FROM php:8.0.0RC3-fpm-alpine
 
 ENV MAGICK_HOME=/usr
 ENV MEMCACHED_DEPS zlib-dev libmemcached-dev cyrus-sasl-dev
+
+# pickle for extension management
+RUN wget https://github.com/FriendsOfPHP/pickle/releases/latest/download/pickle.phar && \
+    chmod +x pickle.phar && \
+    mv pickle.phar /usr/local/bin/pickle
 
 RUN apk add --no-cache --update \
     autoconf \
@@ -19,6 +24,8 @@ RUN apk add --no-cache --update \
     imagemagick-dev \
     imagemagick \
     libtool \
+    # zip extension
+    libzip-dev \
     && docker-php-ext-configure gd \
      --with-freetype \
      --with-jpeg \
@@ -28,15 +35,16 @@ RUN apk add --no-cache --update \
     mysqli \
     gd \
     sockets \
-    && pecl install apcu \
+    zip \
+    && pickle install apcu \
     && docker-php-ext-enable apcu \
-    && pecl install redis \
+    && pickle install redis \
     && docker-php-ext-enable redis \
-    && pecl install igbinary \
+    && pickle install igbinary \
     && docker-php-ext-enable igbinary \
-    && pecl install msgpack \
+    && pickle install msgpack \
     && docker-php-ext-enable msgpack \
-    && pecl install imagick \
+    && pickle install imagick \
     && docker-php-ext-enable imagick \
     && apk del autoconf g++ libtool make
 
@@ -45,10 +53,10 @@ RUN apk add --no-cache --update \
     zlib \
     && apk add --no-cache --update --virtual .memcached-deps $MEMCACHED_DEPS \
     && apk add --no-cache --update --virtual .phpize-deps $PHPIZE_DEPS \
-    && pecl install memcached \
+    && pickle install memcached \
     && docker-php-ext-enable memcached \
     # needed by WodPress with Memcache object cache
-    && pecl install memcache \
+    && pickle install memcache \
     && docker-php-ext-enable memcache \
     && rm -rf /usr/share/php7 \
     && rm -rf /tmp/* \
