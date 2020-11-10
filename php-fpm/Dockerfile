@@ -19,15 +19,19 @@ RUN apk add --no-cache --update \
     imagemagick-dev \
     imagemagick \
     libtool \
+    # php ext intl
+    icu-dev \
     && docker-php-ext-configure gd \
      --with-freetype \
      --with-jpeg \
+    && docker-php-ext-configure intl \
     && docker-php-ext-install \
     opcache \
     mbstring \
     mysqli \
     gd \
     sockets \
+    intl \
     && pecl install apcu \
     && docker-php-ext-enable apcu \
     && pecl install redis \
