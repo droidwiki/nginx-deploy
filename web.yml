@@ -15,6 +15,11 @@ services:
       update_config:
         parallelism: 1
         failure_action: rollback
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-region: "eu-west-1"
+        awslogs-group: "/docker/frontend-proxy"
     image: droidwiki/nginx
     volumes:
       - ./nginx/certs/:/etc/nginx/certs/
