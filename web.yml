@@ -170,7 +170,7 @@ services:
       driver: "awslogs"
       options:
         awslogs-region: "eu-west-1"
-        awslogs-group: "/docker/citoid"
+        awslogs-group: "/docker/zotero"
     image: zotero/translation-server:2.0.3
 
   parsoid:
