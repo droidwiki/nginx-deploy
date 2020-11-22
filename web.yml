@@ -51,6 +51,11 @@ services:
 
   php:
     <<: *deploy
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-region: "eu-west-1"
+        awslogs-group: "/docker/php"
     image: droidwiki/php-fpm
     user: 33:33
     volumes:
@@ -63,6 +68,11 @@ services:
       update_config:
         parallelism: 1
         failure_action: rollback
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-region: "eu-west-1"
+        awslogs-group: "/docker/jobrunner"
     image: droidwiki/jobrunner
     user: 33:33
     volumes:
@@ -75,6 +85,11 @@ services:
       update_config:
         parallelism: 1
         failure_action: rollback
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-region: "eu-west-1"
+        awslogs-group: "/docker/jobrunner"
     image: droidwiki/jobchron
     user: 33:33
     volumes:
@@ -82,6 +97,11 @@ services:
 
   cache:
     <<: *deploy
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-region: "eu-west-1"
+        awslogs-group: "/docker/cache"
     image: droidwiki/varnish
     tmpfs:
       - /usr/local/var/varnish:exec
@@ -93,11 +113,21 @@ services:
       update_config:
         parallelism: 1
         failure_action: rollback
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-region: "eu-west-1"
+        awslogs-group: "/docker/memcached"
     image: memcached:alpine
     command: memcached -m 11410
 
   redis:
     image: redis:6.0.8-alpine
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-region: "eu-west-1"
+        awslogs-group: "/docker/redis"
     volumes:
       - /data/ha_volume/redis:/data
     deploy:
@@ -106,6 +136,11 @@ services:
 
   thumbor:
     <<: *deploy
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-region: "eu-west-1"
+        awslogs-group: "/docker/thumbor"
     image: minimalcompact/thumbor:6.7.5
     environment:
       - LOADER=thumbor.loaders.file_loader
@@ -120,20 +155,40 @@ services:
 
   citoid:
     <<: *deploy
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-region: "eu-west-1"
+        awslogs-group: "/docker/citoid"
     image: droidwiki/citoid
     depends_on:
       - zotero
 
   zotero:
     <<: *deploy
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-region: "eu-west-1"
+        awslogs-group: "/docker/citoid"
     image: zotero/translation-server:2.0.3
 
   parsoid:
     <<: *deploy
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-region: "eu-west-1"
+        awslogs-group: "/docker/parsoid"
     image: droidwiki/parsoid
 
   restbase:
     <<: *deploy
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-region: "eu-west-1"
+        awslogs-group: "/docker/restbase"
     image: droidwiki/restbase
     depends_on:
       - citoid
