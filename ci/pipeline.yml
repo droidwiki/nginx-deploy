@@ -82,6 +82,7 @@ resources:
 
 - name: citoid-image
   type: docker-image
+  check_every: 24h
   icon: docker
   source:
     username: ((docker.username))
@@ -90,6 +91,7 @@ resources:
 
 - name: jobrunner-image
   type: docker-image
+  check_every: 24h
   icon: docker
   source:
     username: ((docker.username))
@@ -98,6 +100,7 @@ resources:
 
 - name: jobchron-image
   type: docker-image
+  check_every: 24h
   icon: docker
   source:
     username: ((docker.username))
@@ -106,6 +109,7 @@ resources:
 
 - name: parsoid-image
   type: docker-image
+  check_every: 24h
   icon: docker
   source:
     username: ((docker.username))
@@ -114,6 +118,7 @@ resources:
 
 - name: php-fpm-image
   type: docker-image
+  check_every: 24h
   icon: docker
   source:
     username: ((docker.username))
@@ -122,6 +127,7 @@ resources:
 
 - name: restbase-image
   type: docker-image
+  check_every: 24h
   icon: docker
   source:
     username: ((docker.username))
@@ -130,6 +136,7 @@ resources:
 
 - name: varnish-image
   type: docker-image
+  check_every: 24h
   icon: docker
   source:
     username: ((docker.username))
@@ -138,6 +145,7 @@ resources:
 
 - name: nginx-image
   type: docker-image
+  check_every: 24h
   icon: docker
   source:
     username: ((docker.username))

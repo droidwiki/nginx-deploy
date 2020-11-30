@@ -26,9 +26,12 @@ RUN apk add --no-cache --update \
     libtool \
     # zip extension
     libzip-dev \
+    # php ext intl
+    icu-dev \
     && docker-php-ext-configure gd \
      --with-freetype \
      --with-jpeg \
+    && docker-php-ext-configure intl \
     && docker-php-ext-install \
     opcache \
     mbstring \
@@ -36,6 +39,7 @@ RUN apk add --no-cache --update \
     gd \
     sockets \
     zip \
+    intl \
     && pickle install apcu \
     && docker-php-ext-enable apcu \
     && pickle install redis \
