@@ -67,7 +67,7 @@ services:
       driver: "awslogs"
       options:
         awslogs-region: "eu-west-1"
-        awslogs-group: "/docker/php"
+        awslogs-group: "/docker/php-canary"
     image: droidwiki/php-fpm:latest
     user: 33:33
     volumes:
