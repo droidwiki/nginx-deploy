@@ -1,4 +1,17 @@
-FROM php:8.0.0RC3-fpm-alpine
+ARG PHP_IMAGE_TAG=8.0.0-fpm-alpine
+
+FROM php:${PHP_IMAGE_TAG} as imagick
+
+ENV IMAGICK_VERSION=c5b8086b5d96c7030e6d4e6ea9a5ef49055d8273
+
+COPY compile_imagick.sh compile_imagick.sh
+RUN apk add --no-cache --update autoconf g++ make imagemagick-dev imagemagick libtool \
+    && chmod +x compile_imagick.sh \
+    && ./compile_imagick.sh \
+    && mkdir /artifact/ \
+    && mv modules/imagick.* /artifact/
+
+FROM php:${PHP_IMAGE_TAG}
 
 ENV MAGICK_HOME=/usr
 ENV MEMCACHED_DEPS zlib-dev libmemcached-dev cyrus-sasl-dev
@@ -7,6 +20,9 @@ ENV MEMCACHED_DEPS zlib-dev libmemcached-dev cyrus-sasl-dev
 RUN wget https://github.com/FriendsOfPHP/pickle/releases/latest/download/pickle.phar && \
     chmod +x pickle.phar && \
     mv pickle.phar /usr/local/bin/pickle
+
+COPY --from=imagick /artifact/imagick.* ./
+COPY enable_imagick.sh ./
 
 RUN apk add --no-cache --update \
     autoconf \
@@ -47,9 +63,9 @@ RUN apk add --no-cache --update \
     && pickle install igbinary \
     && docker-php-ext-enable igbinary \
     && pickle install msgpack \
+    && chmod +x enable_imagick.sh \
+    && ./enable_imagick.sh \
     && docker-php-ext-enable msgpack \
-    && pickle install imagick \
-    && docker-php-ext-enable imagick \
     && apk del autoconf g++ libtool make
 
 RUN apk add --no-cache --update \
@@ -59,10 +75,6 @@ RUN apk add --no-cache --update \
     && apk add --no-cache --update --virtual .phpize-deps $PHPIZE_DEPS \
     && pickle install memcached \
     && docker-php-ext-enable memcached \
-    # needed by WodPress with Memcache object cache
-    && pickle install memcache \
-    && docker-php-ext-enable memcache \
-    && rm -rf /usr/share/php7 \
     && rm -rf /tmp/* \
     && apk del .memcached-deps .phpize-deps
 

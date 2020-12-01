@@ -116,7 +116,7 @@ resources:
     password: ((docker.access_token))
     repository: droidwiki/parsoid
 
-- name: php-fpm-image
+- name: php-fpm-image-7.4
   type: docker-image
   check_every: 24h
   icon: docker
@@ -124,6 +124,17 @@ resources:
     username: ((docker.username))
     password: ((docker.access_token))
     repository: droidwiki/php-fpm
+    tag: 7.4
+
+- name: php-fpm-image-8.0
+  type: docker-image
+  check_every: 24h
+  icon: docker
+  source:
+    username: ((docker.username))
+    password: ((docker.access_token))
+    repository: droidwiki/php-fpm
+    tag: latest
 
 - name: restbase-image
   type: docker-image
@@ -176,9 +187,12 @@ jobs:
     plan:
       - get: php-fpm-src
         trigger: true
-      - put: php-fpm-image
+      - put: php-fpm-image-7.4
         params:
-          build: php-fpm-src/php-fpm
+          build: php-fpm-src/php-fpm/7.4
+      - put: php-fpm-image-8.0
+        params:
+          build: php-fpm-src/php-fpm/8.0
 
   - name: restbase
     serial: true
@@ -212,7 +226,7 @@ jobs:
     plan:
       - get: jobrunner-src
         trigger: true
-      - get: php-fpm-image
+      - get: php-fpm-image-7.4
         passed: [php-fpm]
         trigger: true
         params:
@@ -220,11 +234,11 @@ jobs:
       - put: jobrunner-image
         params:
           build: jobrunner-src/jobrunner
-          load_base: php-fpm-image
+          load_base: php-fpm-image-7.4
       - put: jobchron-image
         params:
           build: jobrunner-src/jobchron
-          load_base: php-fpm-image
+          load_base: php-fpm-image-7.4
 
   - name: deploy
     serial: true
@@ -242,7 +256,12 @@ jobs:
           trigger: true
           params:
             skip_download: true
-        - get: php-fpm-image
+        - get: php-fpm-image-7.4
+          passed: [php-fpm]
+          trigger: true
+          params:
+            skip_download: true
+        - get: php-fpm-image-8.0
           passed: [php-fpm]
           trigger: true
           params:
