@@ -169,7 +169,7 @@ sub vcl_backend_response {
           return (deliver);
         }
 
-        if (beresp.status == 404) {
+        if (beresp.status == 404 || beresp.status == 500) {
             set beresp.ttl = 120s;
             set beresp.uncacheable = true;
             return (deliver);
