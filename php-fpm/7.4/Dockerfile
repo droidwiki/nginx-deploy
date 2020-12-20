@@ -59,4 +59,4 @@ RUN apk add --no-cache --update \
     && apk del .memcached-deps .phpize-deps
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-COPY config/opcache.ini $PHP_INI_DIR/conf.d/
+COPY config/* $PHP_INI_DIR/conf.d/
