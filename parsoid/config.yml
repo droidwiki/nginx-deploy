@@ -18,5 +18,8 @@ services:
           - datawiki:
             uri: 'https://data.droidwiki.org/w/api.php'
             prefix: 'datawiki'
+          - datawiki:
+            uri: 'https://www.armakoth.wiki/w/api.php'
+            prefix: 'armakothwiki'
         useSelser: true
 
