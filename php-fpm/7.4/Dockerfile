@@ -52,7 +52,7 @@ RUN apk add --no-cache --update \
     && pecl install memcached \
     && docker-php-ext-enable memcached \
     # needed by WodPress with Memcache object cache
-    && pecl install memcache \
+    && pecl install memcache-4.0.5.2 \
     && docker-php-ext-enable memcache \
     && rm -rf /usr/share/php7 \
     && rm -rf /tmp/* \
