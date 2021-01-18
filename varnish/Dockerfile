@@ -6,7 +6,7 @@ ARG VARNISH_PROMETHEUS_EXPORTER_VSN=1.5.2
 RUN go get github.com/jonnenauha/prometheus_varnish_exporter@$VARNISH_PROMETHEUS_EXPORTER_VSN
 #RUN go build
 
-FROM varnish:6.4.0
+FROM varnish:6.5.1
 
 COPY --from=exporter /go/bin/prometheus_varnish_exporter /usr/local/bin
 COPY start.sh /start.sh
