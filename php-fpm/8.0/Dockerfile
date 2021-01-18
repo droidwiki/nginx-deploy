@@ -60,7 +60,7 @@ RUN apk add --no-cache --update \
     && docker-php-ext-enable apcu \
     && pickle install redis \
     && docker-php-ext-enable redis \
-    && pickle install igbinary \
+    && pickle install igbinary@3.2.1 \
     && docker-php-ext-enable igbinary \
     && pickle install msgpack \
     && chmod +x enable_imagick.sh \
