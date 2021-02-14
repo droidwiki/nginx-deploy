@@ -30,16 +30,6 @@ resources:
       - jobchron/*
       - jobrunner/*
 
-- name: parsoid-src
-  type: git
-  check_every: 24h
-  webhook_token: ((github.webhook_token))
-  icon: github-circle
-  source:
-    uri: https://github.com/droidwiki/nginx-deploy.git
-    paths:
-      - parsoid/*
-
 - name: php-fpm-src
   type: git
   check_every: 24h
@@ -107,15 +97,6 @@ resources:
     password: ((docker.access_token))
     repository: droidwiki/jobchron
 
-- name: parsoid-image
-  type: docker-image
-  check_every: 24h
-  icon: docker
-  source:
-    username: ((docker.username))
-    password: ((docker.access_token))
-    repository: droidwiki/parsoid
-
 - name: php-fpm-image-7.4
   type: docker-image
   check_every: 24h
@@ -172,15 +153,6 @@ jobs:
       - put: citoid-image
         params:
           build: citoid-src/citoid
-
-  - name: parsoid
-    serial: true
-    plan:
-      - get: parsoid-src
-        trigger: true
-      - put: parsoid-image
-        params:
-          build: parsoid-src/parsoid
 
   - name: php-fpm
     serial: true
@@ -263,11 +235,6 @@ jobs:
             skip_download: true
         - get: php-fpm-image-8.0
           passed: [php-fpm]
-          trigger: true
-          params:
-            skip_download: true
-        - get: parsoid-image
-          passed: [parsoid]
           trigger: true
           params:
             skip_download: true
