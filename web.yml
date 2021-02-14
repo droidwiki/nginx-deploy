@@ -185,15 +185,6 @@ services:
         awslogs-group: "/docker/zotero"
     image: zotero/translation-server:2.0.3
 
-  parsoid:
-    <<: *deploy
-    logging:
-      driver: "awslogs"
-      options:
-        awslogs-region: "eu-west-1"
-        awslogs-group: "/docker/parsoid"
-    image: droidwiki/parsoid
-
   restbase:
     <<: *deploy
     logging:

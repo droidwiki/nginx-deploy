@@ -10,7 +10,7 @@ droidwiki: &droidwiki
                     apiUriTemplate: "{{'https://{domain}/w/api.php'}}"
                     baseUriTemplate: "{{'https://{domain}:7231/{domain}/v1'}}"
                   parsoid:
-                    host: http://parsoid:8000
+                    host: http://frontend-proxy:8080/w/rest.php
                   citoid:
                     host: http://citoid:1970
                   related:
