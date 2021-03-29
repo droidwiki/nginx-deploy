@@ -1,4 +1,4 @@
-ARG NGINX_VERSION=1.19.6
+ARG NGINX_VERSION=1.19.8
 FROM nginx:${NGINX_VERSION}-alpine AS release
 
 COPY conf/ /etc/nginx/conf.d/

@@ -1,4 +1,4 @@
-FROM golang:1.12 as exporter
+FROM golang:1.16 as exporter
 ENV GO111MODULE=on
 
 ARG VARNISH_PROMETHEUS_EXPORTER_VSN=1.5.2
