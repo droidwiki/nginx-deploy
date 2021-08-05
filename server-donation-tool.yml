@@ -12,5 +12,6 @@ services:
       - ./server-donation-tool/config.yml:/app/config.yml
       - ./server-donation-tool/db/:/app/db/
       - ./server-donation-tool/server.log:/app/server.log
+      - ./server-donation-tool/string_overrides.yml:/app/string_overrides.yml
     networks:
       - webserver_default
