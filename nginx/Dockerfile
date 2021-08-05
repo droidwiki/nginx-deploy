@@ -20,6 +20,7 @@ RUN echo "127.0.0.1 php" >> /etc/hosts && \
     echo "127.0.0.1 eclair.dwnet" >> /etc/hosts && \
     echo "127.0.0.1 escape-statistics-backend" >> /etc/hosts && \
     echo "127.0.0.1 escape-statistics-frontend" >> /etc/hosts && \
+    echo "127.0.0.1 server-donation-tool-demo" >> /etc/hosts && \
     nginx -t
 
 FROM release
