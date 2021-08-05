@@ -1,0 +1,15 @@
+version: "3.7"
+
+networks:
+  webserver_default:
+    external: true
+
+services:
+  serviceName:
+    image: droidwiki/server-donation-tool
+    restart: unless-stopped
+    volumes:
+      - ./server-donation-tool/config.yml:/app/config.yml
+      - ./server-donation-tool/db/:/app/db/
+    networks:
+      - webserver_default
