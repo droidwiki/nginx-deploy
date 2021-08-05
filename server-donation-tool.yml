@@ -5,11 +5,12 @@ networks:
     external: true
 
 services:
-  serviceName:
+  demo:
     image: droidwiki/server-donation-tool
     restart: unless-stopped
     volumes:
       - ./server-donation-tool/config.yml:/app/config.yml
       - ./server-donation-tool/db/:/app/db/
+      - ./server-donation-tool/server.log:/app/server.log
     networks:
       - webserver_default
