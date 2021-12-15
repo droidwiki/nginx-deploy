@@ -2,7 +2,7 @@ ARG NODE_VERSION=14.18.2
 FROM node:${NODE_VERSION}-alpine AS build
 
 WORKDIR /restbase
-RUN apk --no-cache add git python make g++
+RUN apk --no-cache add git python3 make g++
 RUN git clone https://github.com/wikimedia/restbase.git .
 
 RUN npm install
