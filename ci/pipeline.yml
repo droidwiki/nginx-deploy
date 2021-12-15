@@ -164,7 +164,7 @@ jobs:
           build: php-fpm-src/php-fpm/7.4
       - put: php-fpm-image-8_1
         params:
-          build: php-fpm-src/php-fpm/8.0
+          build: php-fpm-src/php-fpm/8.1
 
   - name: restbase
     serial: true
