@@ -1,4 +1,4 @@
-FROM php:7.4.24-fpm-alpine
+FROM php:7.4.26-fpm-alpine
 
 ENV MAGICK_HOME=/usr
 ENV MEMCACHED_DEPS zlib-dev libmemcached-dev cyrus-sasl-dev

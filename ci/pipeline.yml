@@ -107,7 +107,7 @@ resources:
     repository: droidwiki/php-fpm
     tag: 7.4
 
-- name: php-fpm-image-8_0
+- name: php-fpm-image-8_1
   type: docker-image
   check_every: 24h
   icon: docker
@@ -162,7 +162,7 @@ jobs:
       - put: php-fpm-image-7_4
         params:
           build: php-fpm-src/php-fpm/7.4
-      - put: php-fpm-image-8_0
+      - put: php-fpm-image-8_1
         params:
           build: php-fpm-src/php-fpm/8.0
 
@@ -233,7 +233,7 @@ jobs:
           trigger: true
           params:
             skip_download: true
-        - get: php-fpm-image-8_0
+        - get: php-fpm-image-8_1
           passed: [php-fpm]
           trigger: true
           params:

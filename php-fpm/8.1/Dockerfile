@@ -1,4 +1,4 @@
-ARG PHP_IMAGE_TAG=8.0.11-fpm-alpine
+ARG PHP_IMAGE_TAG=8.1.0-fpm-alpine
 
 FROM php:${PHP_IMAGE_TAG} as imagick
 

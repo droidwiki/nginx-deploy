@@ -1,4 +1,4 @@
-ARG NODE_VERSION=14.17.6
+ARG NODE_VERSION=14.18.2
 FROM node:${NODE_VERSION}-alpine AS build
 
 WORKDIR /restbase
