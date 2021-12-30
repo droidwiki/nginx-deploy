@@ -27,7 +27,6 @@ resources:
   source:
     uri: https://github.com/droidwiki/nginx-deploy.git
     paths:
-      - jobchron/*
       - jobrunner/*
 
 - name: php-fpm-src
@@ -87,15 +86,6 @@ resources:
     username: ((docker.username))
     password: ((docker.access_token))
     repository: droidwiki/jobrunner
-
-- name: jobchron-image
-  type: docker-image
-  check_every: 24h
-  icon: docker
-  source:
-    username: ((docker.username))
-    password: ((docker.access_token))
-    repository: droidwiki/jobchron
 
 - name: php-fpm-image-7_4
   type: docker-image
@@ -206,10 +196,6 @@ jobs:
       - put: jobrunner-image
         params:
           build: jobrunner-src/jobrunner
-          load_base: php-fpm-image-7_4
-      - put: jobchron-image
-        params:
-          build: jobrunner-src/jobchron
           load_base: php-fpm-image-7_4
 
   - name: deploy
