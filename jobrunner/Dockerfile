@@ -1,4 +1,4 @@
-FROM droidwiki/php-fpm
+FROM droidwiki/php-fpm:7.4
 
 RUN docker-php-ext-install pcntl
 
