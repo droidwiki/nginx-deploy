@@ -16,8 +16,10 @@ RUN apk add --no-cache --update \
     # mbstring
     oniguruma-dev \
     # imagick
-    imagemagick-dev \
+	libgomp \
     imagemagick \
+    imagemagick-dev \
+    imagemagick-libs \
     libtool \
     # php ext intl
     icu-dev \

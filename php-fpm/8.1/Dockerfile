@@ -23,8 +23,10 @@ RUN apk add --no-cache --update \
     # mbstring
     oniguruma-dev \
     # imagick
-    imagemagick-dev \
+	libgomp \
     imagemagick \
+    imagemagick-dev \
+    imagemagick-libs \
     libtool \
     # zip extension
     libzip-dev \
