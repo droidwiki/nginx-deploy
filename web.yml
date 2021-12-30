@@ -90,7 +90,7 @@ services:
     volumes:
       - /data/mediawiki:/data/mediawiki
     environment:
-      - DB_NAMES: droidwikiwiki datawiki endroidwikiwiki opswiki armakothwiki
+      DB_NAMES: droidwikiwiki datawiki endroidwikiwiki opswiki armakothwiki
 
   cache:
     <<: *deploy
