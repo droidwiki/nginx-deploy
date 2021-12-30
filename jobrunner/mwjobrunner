@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Put the MediaWiki installation path on the line below
+RUNJOBS="/data/mediawiki/mw-config/mw-config/multiversion/MWScript.php runJobs.php"
+
+echo Starting job service...
+# Wait a minute after the server starts up to give other processes time to get started
+sleep 60
+echo Started.
+
+while true; do
+	for wiki in $DB_NAMES; do
+		echo Doing $wiki
+		# Job types that need to be run ASAP no matter how many of them are in the queue
+		# Those jobs should be very "cheap" to run
+		php $RUNJOBS --wiki=$wiki --type="enotifNotify"
+		# Everything else, limit the number of jobs on each batch
+		# The --wait parameter will pause the execution here until new jobs are added,
+		# to avoid running the loop without anything to do
+		php $RUNJOBS --wiki=$wiki --maxjobs=20
+	done
+
+	# Wait some seconds to let the CPU do other things, like handling web requests, etc
+	echo Waiting for 10 seconds...
+	sleep 10
+done

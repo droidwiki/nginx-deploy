@@ -88,24 +88,9 @@ services:
     image: droidwiki/jobrunner
     user: 33:33
     volumes:
-      - /data:/data
-
-  jobchron:
-    stop_grace_period: 5s
-    deploy:
-      replicas: 1
-      update_config:
-        parallelism: 1
-        failure_action: rollback
-    logging:
-      driver: "awslogs"
-      options:
-        awslogs-region: "eu-west-1"
-        awslogs-group: "/docker/jobrunner"
-    image: droidwiki/jobchron
-    user: 33:33
-    volumes:
-      - /data:/data
+      - /data/mediawiki:/data/mediawiki
+    environment:
+      - DB_NAMES="droidwikiwiki datawiki endroidwikiwiki opswiki armakothwiki"
 
   cache:
     <<: *deploy
