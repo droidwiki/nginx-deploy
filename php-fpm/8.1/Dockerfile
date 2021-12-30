@@ -16,6 +16,8 @@ RUN apk add --no-cache --update \
     make \
     # Scribunto extension
     lua \
+	# SyntaxHighlight_GeSHi
+	python3 \
     # gd
     freetype-dev \
     libpng-dev \
