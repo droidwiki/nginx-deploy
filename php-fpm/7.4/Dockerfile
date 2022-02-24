@@ -36,6 +36,7 @@ RUN apk add --no-cache --update \
     gd \
     sockets \
     intl \
+	sockets \
     && pecl install apcu \
     && docker-php-ext-enable apcu \
     && pecl install redis \
