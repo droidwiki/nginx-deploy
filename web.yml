@@ -180,4 +180,3 @@ services:
     image: droidwiki/restbase
     depends_on:
       - citoid
-      - parsoid
