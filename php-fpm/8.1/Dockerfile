@@ -47,6 +47,7 @@ RUN apk add --no-cache --update \
     zip \
     intl \
 	sockets \
+	calendar \
     && pickle install imagick \
     && docker-php-ext-enable imagick \
     && pickle install apcu \
