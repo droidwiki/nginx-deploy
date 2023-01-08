@@ -199,7 +199,6 @@ jobs:
       - get: jobrunner-src
         trigger: true
       - get: php-fpm-image-7_4
-        passed: [php-fpm]
         trigger: true
         params:
           save: true
