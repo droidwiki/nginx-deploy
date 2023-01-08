@@ -105,7 +105,17 @@ resources:
     username: ((docker.username))
     password: ((docker.access_token))
     repository: droidwiki/php-fpm
-    tag: latest
+    tag: 8.1
+
+- name: php-fpm-image-8_2
+  type: docker-image
+  check_every: 24h
+  icon: docker
+  source:
+    username: ((docker.username))
+    password: ((docker.access_token))
+    repository: droidwiki/php-fpm
+    tag: 8.2
 
 - name: restbase-image
   type: docker-image
@@ -149,12 +159,12 @@ jobs:
     plan:
       - get: php-fpm-src
         trigger: true
-      - put: php-fpm-image-7_4
-        params:
-          build: php-fpm-src/php-fpm/7.4
       - put: php-fpm-image-8_1
         params:
           build: php-fpm-src/php-fpm/8.1
+      - put: php-fpm-image-8_2
+        params:
+          build: php-fpm-src/php-fpm/8.2
 
   - name: restbase
     serial: true
@@ -214,12 +224,12 @@ jobs:
           trigger: true
           params:
             skip_download: true
-        - get: php-fpm-image-7_4
+        - get: php-fpm-image-8_1
           passed: [php-fpm]
           trigger: true
           params:
             skip_download: true
-        - get: php-fpm-image-8_1
+        - get: php-fpm-image-8_2
           passed: [php-fpm]
           trigger: true
           params:

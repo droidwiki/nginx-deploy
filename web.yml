@@ -56,7 +56,7 @@ services:
       options:
         awslogs-region: "eu-west-1"
         awslogs-group: "/docker/php"
-    image: droidwiki/php-fpm:7.4
+    image: droidwiki/php-fpm:8.1
     user: 33:33
     volumes:
       - /data:/data
@@ -68,7 +68,7 @@ services:
       options:
         awslogs-region: "eu-west-1"
         awslogs-group: "/docker/php-canary"
-    image: droidwiki/php-fpm:latest
+    image: droidwiki/php-fpm:8.2
     user: 33:33
     volumes:
       - /data:/data

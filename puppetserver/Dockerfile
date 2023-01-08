@@ -1,3 +1,3 @@
-FROM puppet/puppetserver:7.4.0
+FROM puppet/puppetserver:7.9.2
 
 RUN gem install hiera-eyaml && puppetserver gem install hiera-eyaml
