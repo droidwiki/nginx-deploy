@@ -14,6 +14,8 @@ RUN apk add --no-cache --update \
     autoconf \
     g++ \
     make \
+	# Required for sockets (https://github.com/php/php-src/issues/8681)
+	linux-headers \
     # Scribunto extension
     lua \
 	# SyntaxHighlight_GeSHi
@@ -58,7 +60,7 @@ RUN apk add --no-cache --update \
     && docker-php-ext-enable igbinary \
     && pickle install msgpack \
     && docker-php-ext-enable msgpack \
-    && apk del autoconf g++ libtool make
+    && apk del autoconf g++ libtool make linux-headers
 
 RUN apk add --no-cache --update \
     libmemcached-libs \
