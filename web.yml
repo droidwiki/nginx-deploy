@@ -8,6 +8,11 @@ x-deploy: &deploy
       parallelism: 1
       failure_action: rollback
 
+networks:
+  webserver_default:
+    driver: overlay
+    attachable: true
+
 services:
   frontend-proxy:
     deploy:
@@ -35,6 +40,8 @@ services:
     extra_hosts:
       - "donut.dwnet:172.16.0.1"
       - "eclair.dwnet:172.16.0.2"
+    networks:
+      webserver_default:
     ports:
       - mode: host
         protocol: tcp
@@ -58,6 +65,8 @@ services:
         awslogs-group: "/docker/php"
     image: droidwiki/php-fpm:8.1
     user: 33:33
+    networks:
+      webserver_default:
     volumes:
       - /data:/data
 
@@ -70,6 +79,8 @@ services:
         awslogs-group: "/docker/php-canary"
     image: droidwiki/php-fpm:8.2
     user: 33:33
+    networks:
+      webserver_default:
     volumes:
       - /data:/data
 
@@ -87,6 +98,8 @@ services:
         awslogs-group: "/docker/jobrunner"
     image: droidwiki/jobrunner
     user: 33:33
+    networks:
+      webserver_default:
     volumes:
       - /data/mediawiki:/data/mediawiki
     environment:
@@ -100,6 +113,8 @@ services:
         awslogs-region: "eu-west-1"
         awslogs-group: "/docker/cache"
     image: droidwiki/varnish
+    networks:
+      webserver_default:
     tmpfs:
       - /usr/local/var/varnish:exec
 
@@ -115,6 +130,8 @@ services:
       options:
         awslogs-region: "eu-west-1"
         awslogs-group: "/docker/memcached"
+    networks:
+      webserver_default:
     image: memcached:alpine
     command: memcached -m 11410
 
@@ -129,6 +146,8 @@ services:
       - /data/ha_volume/redis:/data
     deploy:
       replicas: 1
+    networks:
+      webserver_default:
     command: redis-server --appendonly yes
 
   thumbor:
@@ -139,6 +158,8 @@ services:
         awslogs-region: "eu-west-1"
         awslogs-group: "/docker/thumbor"
     image: minimalcompact/thumbor:6.7.5
+    networks:
+      webserver_default:
     environment:
       - LOADER=thumbor.loaders.file_loader
       - FILE_LOADER_ROOT_PATH=/images
@@ -158,6 +179,8 @@ services:
         awslogs-region: "eu-west-1"
         awslogs-group: "/docker/citoid"
     image: droidwiki/citoid
+    networks:
+      webserver_default:
     depends_on:
       - zotero
 
@@ -169,6 +192,8 @@ services:
         awslogs-region: "eu-west-1"
         awslogs-group: "/docker/zotero"
     image: zotero/translation-server:2.0.3
+    networks:
+      webserver_default:
 
   restbase:
     <<: *deploy
@@ -178,5 +203,7 @@ services:
         awslogs-region: "eu-west-1"
         awslogs-group: "/docker/restbase"
     image: droidwiki/restbase
+    networks:
+      webserver_default:
     depends_on:
       - citoid
