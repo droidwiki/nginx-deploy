@@ -67,6 +67,8 @@ services:
     user: 33:33
     networks:
       default:
+        aliases:
+          - php
     volumes:
       - /data:/data
 
@@ -81,6 +83,8 @@ services:
     user: 33:33
     networks:
       default:
+        aliases:
+          - php-canary
     volumes:
       - /data:/data
 
@@ -115,6 +119,8 @@ services:
     image: droidwiki/varnish
     networks:
       default:
+        aliases:
+          - cache
     tmpfs:
       - /usr/local/var/varnish:exec
 
@@ -132,6 +138,8 @@ services:
         awslogs-group: "/docker/memcached"
     networks:
       default:
+        aliases:
+          - memcached
     image: memcached:alpine
     command: memcached -m 11410
 
@@ -148,6 +156,8 @@ services:
       replicas: 1
     networks:
       default:
+        aliases:
+          - redis
     command: redis-server --appendonly yes
 
   thumbor:
@@ -160,6 +170,8 @@ services:
     image: minimalcompact/thumbor:6.7.5
     networks:
       default:
+        aliases:
+          - thumbor
     environment:
       - LOADER=thumbor.loaders.file_loader
       - FILE_LOADER_ROOT_PATH=/images
@@ -181,6 +193,8 @@ services:
     image: droidwiki/citoid
     networks:
       default:
+        aliases:
+          - citoid
     depends_on:
       - zotero
 
@@ -194,6 +208,8 @@ services:
     image: zotero/translation-server:2.0.3
     networks:
       default:
+        aliases:
+          - zotero
 
   restbase:
     <<: *deploy
@@ -205,5 +221,7 @@ services:
     image: droidwiki/restbase
     networks:
       default:
+        aliases:
+          - restbase
     depends_on:
       - citoid
