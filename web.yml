@@ -9,7 +9,7 @@ x-deploy: &deploy
       failure_action: rollback
 
 networks:
-  webserver_default:
+  default:
     driver: overlay
     attachable: true
 
@@ -41,7 +41,7 @@ services:
       - "donut.dwnet:172.16.0.1"
       - "eclair.dwnet:172.16.0.2"
     networks:
-      webserver_default:
+      default:
     ports:
       - mode: host
         protocol: tcp
@@ -66,7 +66,7 @@ services:
     image: droidwiki/php-fpm:8.1
     user: 33:33
     networks:
-      webserver_default:
+      default:
     volumes:
       - /data:/data
 
@@ -80,7 +80,7 @@ services:
     image: droidwiki/php-fpm:8.2
     user: 33:33
     networks:
-      webserver_default:
+      default:
     volumes:
       - /data:/data
 
@@ -99,7 +99,7 @@ services:
     image: droidwiki/jobrunner
     user: 33:33
     networks:
-      webserver_default:
+      default:
     volumes:
       - /data/mediawiki:/data/mediawiki
     environment:
@@ -114,7 +114,7 @@ services:
         awslogs-group: "/docker/cache"
     image: droidwiki/varnish
     networks:
-      webserver_default:
+      default:
     tmpfs:
       - /usr/local/var/varnish:exec
 
@@ -131,7 +131,7 @@ services:
         awslogs-region: "eu-west-1"
         awslogs-group: "/docker/memcached"
     networks:
-      webserver_default:
+      default:
     image: memcached:alpine
     command: memcached -m 11410
 
@@ -147,7 +147,7 @@ services:
     deploy:
       replicas: 1
     networks:
-      webserver_default:
+      default:
     command: redis-server --appendonly yes
 
   thumbor:
@@ -159,7 +159,7 @@ services:
         awslogs-group: "/docker/thumbor"
     image: minimalcompact/thumbor:6.7.5
     networks:
-      webserver_default:
+      default:
     environment:
       - LOADER=thumbor.loaders.file_loader
       - FILE_LOADER_ROOT_PATH=/images
@@ -180,7 +180,7 @@ services:
         awslogs-group: "/docker/citoid"
     image: droidwiki/citoid
     networks:
-      webserver_default:
+      default:
     depends_on:
       - zotero
 
@@ -193,7 +193,7 @@ services:
         awslogs-group: "/docker/zotero"
     image: zotero/translation-server:2.0.3
     networks:
-      webserver_default:
+      default:
 
   restbase:
     <<: *deploy
@@ -204,6 +204,6 @@ services:
         awslogs-group: "/docker/restbase"
     image: droidwiki/restbase
     networks:
-      webserver_default:
+      default:
     depends_on:
       - citoid
