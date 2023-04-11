@@ -19,10 +19,13 @@ services:
     environment:
      - PUPPETSERVER_HOSTNAME=eclair.dwnet
      - DNS_ALT_NAMES=eclair.dwnet,puppet
-     - CA_HOSTNAME=eclair.dwnet
+     - CA_ENABLED=true
+     - AUTOSIGN=true
      - USE_PUPPETDB=false
     ports:
      - "8140:8140"
     volumes:
      - /data/ha_volume/puppet/code/:/etc/puppetlabs/code/
-     - /data/ha_volume/puppet/puppet/:/etc/puppetlabs/puppet/
+     - /data/ha_volume/puppet/puppet/hiera.yaml:/etc/puppetlabs/puppet/hiera.yaml
+     - /data/ha_volume/puppet/puppet/secure/:/etc/puppetlabs/puppet/secure/
+     - /data/ha_volume/puppet/puppet/puppet.conf:/etc/puppetlabs/puppet/puppet.conf
