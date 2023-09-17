@@ -30,6 +30,9 @@ services:
         source: /data/ha_volume/go2tech.de/
         target: /data/ha_volume/go2tech.de/
       - type: bind
+        source: /data/ha_volume/cerberus-matches/data/
+        target: /data/ha_volume/cerberus-matches/data/
+      - type: bind
         source: /data/mediawiki/
         target: /data/mediawiki/
     extra_hosts:
