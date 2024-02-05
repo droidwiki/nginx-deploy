@@ -1,4 +1,4 @@
-ARG PHP_IMAGE_TAG=8.1.14-fpm-alpine
+ARG PHP_IMAGE_TAG=8.1.27-fpm-alpine
 
 FROM php:${PHP_IMAGE_TAG}
 
