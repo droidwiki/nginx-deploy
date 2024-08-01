@@ -17,8 +17,8 @@ services:
       # For some reason, puppetserver never goes from satrting to running
       disable: true
     environment:
-     - PUPPETSERVER_HOSTNAME=eclair.dwnet
-     - DNS_ALT_NAMES=eclair.dwnet,puppet
+     - PUPPETSERVER_HOSTNAME=puppet
+     - DNS_ALT_NAMES=puppet
      - CA_ENABLED=true
      - AUTOSIGN=true
      - USE_PUPPETDB=false
