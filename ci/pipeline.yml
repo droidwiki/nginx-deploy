@@ -9,16 +9,6 @@ resources:
     paths:
       - web.yml
 
-- name: citoid-src
-  type: git
-  check_every: 24h
-  webhook_token: ((github.webhook_token))
-  icon: github-circle
-  source:
-    uri: https://github.com/droidwiki/nginx-deploy.git
-    paths:
-      - citoid/*
-
 - name: jobrunner-src
   type: git
   check_every: 24h
@@ -39,16 +29,6 @@ resources:
     paths:
       - php-fpm/*
 
-- name: restbase-src
-  type: git
-  check_every: 24h
-  webhook_token: ((github.webhook_token))
-  icon: github-circle
-  source:
-    uri: https://github.com/droidwiki/nginx-deploy.git
-    paths:
-      - restbase/*
-
 - name: varnish-src
   type: git
   check_every: 24h
@@ -68,15 +48,6 @@ resources:
     uri: https://github.com/droidwiki/nginx-deploy.git
     paths:
       - nginx/*
-
-- name: citoid-image
-  type: docker-image
-  check_every: 24h
-  icon: docker
-  source:
-    username: ((docker.username))
-    password: ((docker.access_token))
-    repository: droidwiki/citoid
 
 - name: jobrunner-image
   type: docker-image
@@ -117,15 +88,6 @@ resources:
     repository: droidwiki/php-fpm
     tag: 8.2
 
-- name: restbase-image
-  type: docker-image
-  check_every: 24h
-  icon: docker
-  source:
-    username: ((docker.username))
-    password: ((docker.access_token))
-    repository: droidwiki/restbase
-
 - name: varnish-image
   type: docker-image
   check_every: 24h
@@ -145,15 +107,6 @@ resources:
     repository: droidwiki/nginx
 
 jobs:
-  - name: citoid
-    serial: true
-    plan:
-      - get: citoid-src
-        trigger: true
-      - put: citoid-image
-        params:
-          build: citoid-src/citoid
-
   - name: php-fpm
     serial: true
     plan:
@@ -165,15 +118,6 @@ jobs:
       - put: php-fpm-image-8_2
         params:
           build: php-fpm-src/php-fpm/8.2
-
-  - name: restbase
-    serial: true
-    plan:
-      - get: restbase-src
-        trigger: true
-      - put: restbase-image
-        params:
-          build: restbase-src/restbase
 
   - name: varnish
     serial: true
@@ -218,11 +162,6 @@ jobs:
           trigger: true
           params:
             skip_download: true
-        - get: restbase-image
-          passed: [restbase]
-          trigger: true
-          params:
-            skip_download: true
         - get: php-fpm-image-8_1
           passed: [php-fpm]
           trigger: true
@@ -230,11 +169,6 @@ jobs:
             skip_download: true
         - get: php-fpm-image-8_2
           passed: [php-fpm]
-          trigger: true
-          params:
-            skip_download: true
-        - get: citoid-image
-          passed: [citoid]
           trigger: true
           params:
             skip_download: true
