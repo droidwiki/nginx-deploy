@@ -15,11 +15,6 @@ services:
       update_config:
         parallelism: 1
         failure_action: rollback
-    logging:
-      driver: "awslogs"
-      options:
-        awslogs-region: "eu-west-1"
-        awslogs-group: "/docker/frontend-proxy"
     image: droidwiki/nginx
     volumes:
       - ./nginx/certs/:/etc/nginx/certs/
@@ -54,11 +49,6 @@ services:
 
   php:
     <<: *deploy
-    logging:
-      driver: "awslogs"
-      options:
-        awslogs-region: "eu-west-1"
-        awslogs-group: "/docker/php"
     image: droidwiki/php-fpm:8.1
     user: 33:33
     volumes:
@@ -66,11 +56,6 @@ services:
 
   php-canary:
     <<: *deploy
-    logging:
-      driver: "awslogs"
-      options:
-        awslogs-region: "eu-west-1"
-        awslogs-group: "/docker/php-canary"
     image: droidwiki/php-fpm:8.2
     user: 33:33
     volumes:
@@ -83,11 +68,6 @@ services:
       update_config:
         parallelism: 1
         failure_action: rollback
-    logging:
-      driver: "awslogs"
-      options:
-        awslogs-region: "eu-west-1"
-        awslogs-group: "/docker/jobrunner"
     image: droidwiki/jobrunner
     user: 33:33
     volumes:
@@ -97,11 +77,6 @@ services:
 
   cache:
     <<: *deploy
-    logging:
-      driver: "awslogs"
-      options:
-        awslogs-region: "eu-west-1"
-        awslogs-group: "/docker/cache"
     image: droidwiki/varnish
     tmpfs:
       - /usr/local/var/varnish:exec
@@ -113,21 +88,11 @@ services:
       update_config:
         parallelism: 1
         failure_action: rollback
-    logging:
-      driver: "awslogs"
-      options:
-        awslogs-region: "eu-west-1"
-        awslogs-group: "/docker/memcached"
     image: memcached:alpine
     command: memcached -m 11410
 
   redis:
     image: redis:6.0.8-alpine
-    logging:
-      driver: "awslogs"
-      options:
-        awslogs-region: "eu-west-1"
-        awslogs-group: "/docker/redis"
     volumes:
       - /data/ha_volume/redis:/data
     deploy:
