@@ -5,11 +5,6 @@ backend default {
         .port = "8080";
 }
 
-backend thumbor {
-        .host = "thumbor";
-        .port = "80";
-}
-
 sub vcl_recv {
         set req.backend_hint= default;
 
@@ -50,12 +45,6 @@ sub vcl_recv {
           } else {
             unset req.http.Accept-Encoding;
           }
-        }
-
-        if (req.url ~ "(?i)\.(jpg|jpeg|jpe|png)$" && req.url ~ "(?i)/thumb/" && req.http.Accept ~ "(?i)image/webp" && req.http.x-no-thumbor != "yes") {
-                set req.http.x-orig-url = req.url;
-                set req.url = regsub(req.url,".*\/thumb\/(.*)","/unsafe/filters:format(webp)/thumb/\1");
-                set req.backend_hint = thumbor;
         }
 
         if (req.url ~ "action=amp$") {
@@ -133,12 +122,6 @@ sub vcl_miss {
 }
 
 sub vcl_deliver {
-        if (resp.http.x-origin == "thumbor" && resp.status != 200) {
-                set req.url = req.http.x-orig-url;
-                set req.http.x-no-thumbor = "yes";
-                return (restart);
-        }
-
         if (obj.hits > 0) {
                 set resp.http.X-Cache = "HIT";
         } else {
