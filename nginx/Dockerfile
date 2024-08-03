@@ -14,10 +14,7 @@ RUN mkdir -p /etc/nginx/certs/droidwiki.org && \
      -out /etc/nginx/certs/droidwiki.org/fullchain.pem \
      -days 365 \
      -subj "/C=DE/ST=No/L=City/O=A/OU=A/CN=www.example.com/emailAddress=dev@www.example.com"
-RUN echo "127.0.0.1 php" >> /etc/hosts && \
-    echo "127.0.0.1 php-canary" >> /etc/hosts && \
-    echo "127.0.0.1 cache" >> /etc/hosts && \
-    echo "127.0.0.1 eclair.dwnet" >> /etc/hosts && \
+RUN echo "127.0.0.1 eclair.dwnet" >> /etc/hosts && \
     echo "127.0.0.1 cerberus-grafana" >> /etc/hosts && \
     echo "127.0.0.1 cerberus-datasource" >> /etc/hosts && \
     echo "127.0.0.1 infamous_rcon_1" >> /etc/hosts && \

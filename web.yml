@@ -19,17 +19,11 @@ services:
     volumes:
       - ./nginx/certs/:/etc/nginx/certs/
       - type: bind
-        source: /data/shareddata/
-        target: /data/shareddata/
-      - type: bind
         source: /data/ha_volume/go2tech.de/
         target: /data/ha_volume/go2tech.de/
       - type: bind
         source: /data/ha_volume/cerberus-matches/data/
         target: /data/ha_volume/cerberus-matches/data/
-      - type: bind
-        source: /data/mediawiki/
-        target: /data/mediawiki/
     extra_hosts:
       - "donut.dwnet:172.16.0.1"
       - "eclair.dwnet:172.16.0.2"
@@ -46,55 +40,3 @@ services:
         protocol: tcp
         published: 8080
         target: 8080
-
-  php:
-    <<: *deploy
-    image: droidwiki/php-fpm:8.1
-    user: 33:33
-    volumes:
-      - /data:/data
-
-  php-canary:
-    <<: *deploy
-    image: droidwiki/php-fpm:8.2
-    user: 33:33
-    volumes:
-      - /data:/data
-
-  jobrunner:
-    stop_grace_period: 5s
-    deploy:
-      replicas: 1
-      update_config:
-        parallelism: 1
-        failure_action: rollback
-    image: droidwiki/jobrunner
-    user: 33:33
-    volumes:
-      - /data/mediawiki:/data/mediawiki
-    environment:
-      DB_NAMES: droidwikiwiki datawiki endroidwikiwiki opswiki armakothwiki
-
-  cache:
-    <<: *deploy
-    image: droidwiki/varnish
-    tmpfs:
-      - /usr/local/var/varnish:exec
-
-  memcached:
-    stop_grace_period: 5s
-    deploy:
-      replicas: 1
-      update_config:
-        parallelism: 1
-        failure_action: rollback
-    image: memcached:alpine
-    command: memcached -m 11410
-
-  redis:
-    image: redis:6.0.8-alpine
-    volumes:
-      - /data/ha_volume/redis:/data
-    deploy:
-      replicas: 1
-    command: redis-server --appendonly yes
