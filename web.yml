@@ -1,21 +1,9 @@
 version: '3.7'
 
-x-deploy: &deploy
-  stop_grace_period: 5s
-  deploy:
-    replicas: 2
-    update_config:
-      parallelism: 1
-      failure_action: rollback
-
 services:
   frontend-proxy:
-    deploy:
-      mode: global
-      update_config:
-        parallelism: 1
-        failure_action: rollback
-    image: droidwiki/nginx
+    build:
+      context: nginx
     volumes:
       - ./nginx/certs/:/etc/nginx/certs/
       - type: bind
