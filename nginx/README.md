@@ -1,8 +1,8 @@
 ## Certbot cert update
 
 certbot certonly \
-	--dns-rfc2136 \
-	--dns-rfc2136-credentials /etc/bind/rfc2136_letsencrypt.ini \
+	--dns-cloudflare \
+	--dns-cloudflare-credentials /data/ha_volume/bindcloudflare.ini \
 	-d 'go2tech.de' \
 	-d '*.go2tech.de' \
 	--server https://acme-v02.api.letsencrypt.org/directory \
