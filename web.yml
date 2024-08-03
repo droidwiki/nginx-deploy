@@ -1,5 +1,8 @@
 version: '3.7'
 
+networks:
+  webserver_default:
+
 services:
   frontend-proxy:
     build:
@@ -15,6 +18,9 @@ services:
     extra_hosts:
       - "donut.dwnet:172.16.0.1"
       - "eclair.dwnet:172.16.0.2"
+      - "host.docker.internal:host-gateway"
+    networks:
+      - webserver_default
     ports:
       - mode: host
         protocol: tcp
