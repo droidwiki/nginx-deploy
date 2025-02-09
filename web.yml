@@ -5,6 +5,7 @@ networks:
 
 services:
   frontend-proxy:
+    restart: unless-stopped
     build:
       context: nginx
     volumes:
